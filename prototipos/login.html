@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Centro Médico Integral</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Esta configuración personaliza Tailwind
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-green': {
+                            light: '#6EE7B7',
+                            DEFAULT: '#10B981',
+                            dark: '#047857',
+                        },
+                        'brand-gray': {
+                            light: '#F3F4F6',
+                            DEFAULT: '#9CA3AF',
+                            dark: '#4B5563',
+                        },
+                        'brand-warm': {
+                            DEFAULT: '#F3EADA',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-brand-gray-light flex items-center justify-center min-h-screen px-4">
+
+    <div class="bg-white p-8 md:p-10 rounded-xl shadow-2xl w-full max-w-md">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-brand-green-dark">Centro Médico Integral</h1>
+            <p class="text-brand-gray-DEFAULT mt-2">Bienvenido de nuevo</p>
+        </div>
+
+        <form action="#" method="POST">
+            <!--
+            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded-md" role="alert">
+            <p>Datos incorrectos.</p>
+            </div>
+            -->
+            <div class="mb-5">
+                <label for="dni" class="block mb-2 text-sm font-medium text-brand-gray-dark">Usuario (DNI)</label>
+                <input type="text" id="dni" name="dni"
+                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-green focus:border-brand-green block w-full p-3 placeholder-gray-400"
+                       placeholder="Ingrese su DNI" required>
+            </div>
+
+            <div class="mb-6">
+                <label for="password" class="block mb-2 text-sm font-medium text-brand-gray-dark">Contraseña</label>
+                <input type="password" id="password" name="password"
+                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-green focus:border-brand-green block w-full p-3 placeholder-gray-400"
+                       placeholder="•••••••••" required>
+            </div>
+
+            
+            <div class="mb-5">
+                <button type="button" onclick="window.location.href='#'"
+                        class="w-full text-sm text-brand-green hover:text-brand-green-dark hover:underline focus:outline-none text-center">
+                    <a href="forgot_pass.html" class="text-brand-green hover:text-brand-green-dark hover:underline">Olvidé mi contraseña</a>
+                </button>
+            </div>
+
+            <div class="mb-5">
+                <button type="button" onclick="window.location.href='#'"
+                        class="w-full text-sm text-brand-green hover:text-brand-green-dark hover:underline focus:outline-none text-center">
+                    <a href="register.html" class="text-brand-green hover:text-brand-green-dark hover:underline">Registrarse</a>
+                </button>
+            </div>
+
+
+            <button type="submit"
+                    class="w-full text-white bg-brand-green hover:bg-brand-green-dark focus:ring-4 focus:outline-none focus:ring-brand-green-light font-medium rounded-lg text-sm px-5 py-3 text-center transition-colors duration-300">
+                <a href="user_panel.html">Iniciar Sesión</a>
+            </button>
+        </form>
+    </div>
+
+</body>
+</html>
