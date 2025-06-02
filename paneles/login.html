@@ -132,8 +132,16 @@
                 loginError.classList.add('hidden');
             }
 
-            // Si pasa las validaciones, simula login exitoso
-            window.location.href = 'panel_inicio_paciente.html';
+            // Redirección específica según el DNI
+            if (dniValue === '12345') {
+                window.location.href = 'panel_secretaria_dashboard.html';
+            } else if (dniValue === '6789') {
+                window.location.href = 'panel_medico_dashboard.html';
+            } else if (dniValue === '000') {
+                window.location.href = 'panel_administrador_general.html';
+            } else {
+                window.location.href = 'panel_paciente_inicio.html';
+            }
         });
     </script>
 </body>
