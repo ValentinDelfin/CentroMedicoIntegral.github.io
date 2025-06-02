@@ -47,6 +47,9 @@
             <div id="dniError" class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded-md hidden" role="alert">
                 <p>El DNI debe contener solo números, sin espacios, letras ni puntos.</p>
             </div>
+            <div id="loginError" class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded-md hidden" role="alert">
+                <p>DNI o Contraseña incorrectos.</p>
+            </div>
             <div class="mb-5">
                 <label for="dni" class="block mb-2 text-sm font-medium text-brand-gray-dark">Usuario (DNI)</label>
                 <input type="text" id="dni" name="dni"
@@ -85,12 +88,13 @@
     <script>
         const dniInput = document.getElementById('dni');
         const dniError = document.getElementById('dniError');
+        const loginError = document.getElementById('loginError');
         const loginForm = document.getElementById('loginForm');
+        const passwordInput = document.getElementById('password');
 
         // Solo permite ingresar números y borra caracteres inválidos en tiempo real
         dniInput.addEventListener('input', function(e) {
             const value = dniInput.value;
-            // Si contiene algo que no sea dígito, lo elimina
             const newValue = value.replace(/\D/g, '');
             if (value !== newValue) {
                 dniInput.value = newValue;
@@ -98,18 +102,36 @@
             } else {
                 dniError.classList.add('hidden');
             }
+            // Oculta error de login si el usuario vuelve a escribir
+            loginError.classList.add('hidden');
+        });
+
+        // Oculta error de login al escribir en contraseña
+        passwordInput.addEventListener('input', function(e) {
+            loginError.classList.add('hidden');
         });
 
         loginForm.addEventListener('submit', function(e) {
-            // Validación final antes del envío
+            // Validación final de DNI
             const dniValue = dniInput.value;
             if (!/^\d+$/.test(dniValue) || dniValue.length === 0) {
                 dniError.classList.remove('hidden');
+                loginError.classList.add('hidden');
                 e.preventDefault();
                 return false;
             }
             dniError.classList.add('hidden');
-            // Simula login exitoso para demo
+
+            // Si la contraseña contiene al menos un número, muestra error de login (simulación)
+            const passwordValue = passwordInput.value;
+            if (/\d/.test(passwordValue)) {
+                loginError.classList.remove('hidden');
+                e.preventDefault();
+                return false;
+            }
+
+            // Si pasa las validaciones, simula login exitoso
+            loginError.classList.add('hidden');
             window.location.href = 'user_panel.html';
             e.preventDefault();
         });
