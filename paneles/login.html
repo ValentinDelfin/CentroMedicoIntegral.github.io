@@ -126,7 +126,15 @@
             } else {
                 loginError.classList.add('hidden');
             }
-                 window.location.href = 'panel_paciente_inicio.html';  // Si pasa las validaciones, simula login exitoso
+                 if (dniValue === '12345') {
+                window.location.href = 'panel_secretaria_dashboard.html';
+            } else if (dniValue === '6789') {
+                window.location.href = 'panel_medico_dashboard.html';
+            } else if (dniValue === '0000'{
+                     window.localation.href = 'panel_administrador_general.html';
+            } else {
+                window.location.href = 'user_panel.html';
+            }  // Si pasa las validaciones, simula login exitoso
             } else {
                 dniError.classList.add('hidden');
             }
