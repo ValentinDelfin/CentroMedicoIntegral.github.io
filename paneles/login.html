@@ -109,7 +109,7 @@
         passwordInput.addEventListener('input', function(e) {
             loginError.classList.add('hidden');
         });
- loginForm.addEventListener('submit', function(e) {
+loginForm.addEventListener('submit', function(e) {
             e.preventDefault(); // SIEMPRE prevenir el envío por defecto
 
             // Validación final de DNI
@@ -118,8 +118,11 @@
                 dniError.classList.remove('hidden');
                 loginError.classList.add('hidden');
                 return false;
+            } else {
+                dniError.classList.add('hidden');
             }
-				 // Si la contraseña contiene al menos un número, muestra error de login (simulación)
+
+            // Si la contraseña contiene al menos un número, muestra error de login (simulación)
             const passwordValue = passwordInput.value;
             if (/\d/.test(passwordValue)) {
                 loginError.classList.remove('hidden');
@@ -127,19 +130,16 @@
             } else {
                 loginError.classList.add('hidden');
             }
-				 // Redirección específica según el DNI
+
+            // Redirección específica según el DNI
             if (dniValue === '12345') {
-                window.location.href = 'panel_paciente_inicio.html';
+                window.location.href = 'panel_secretaria_dashboard.html';
             } else if (dniValue === '6789') {
+                window.location.href = 'panel_medico_dashboard.html';
+            } else if (dniValue === '0000') {
+                window.location.href = 'panel_administrador_general.html';
+            } else {
                 window.location.href = 'panel_paciente_inicio.html';
-            } else if (dniValue === '0') {
-                window.location.href = 'panel_paciente_inicio.html';
-            }
-			else {
-                window.location.href = 'panel_paciente_inicio.html';
-            }
-			else {
-                dniError.classList.add('hidden');
             }
         });
     </script>
