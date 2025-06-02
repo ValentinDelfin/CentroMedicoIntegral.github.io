@@ -6,7 +6,6 @@
     <title>Iniciar Sesión - Centro Médico Integral</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        // Esta configuración personaliza Tailwind
         tailwind.config = {
             theme: {
                 extend: {
@@ -112,28 +111,29 @@
         });
 
         loginForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // SIEMPRE prevenir el envío por defecto
+
             // Validación final de DNI
             const dniValue = dniInput.value;
             if (!/^\d+$/.test(dniValue) || dniValue.length === 0) {
                 dniError.classList.remove('hidden');
                 loginError.classList.add('hidden');
-                e.preventDefault();
                 return false;
+            } else {
+                dniError.classList.add('hidden');
             }
-            dniError.classList.add('hidden');
 
             // Si la contraseña contiene al menos un número, muestra error de login (simulación)
             const passwordValue = passwordInput.value;
             if (/\d/.test(passwordValue)) {
                 loginError.classList.remove('hidden');
-                e.preventDefault();
                 return false;
+            } else {
+                loginError.classList.add('hidden');
             }
 
             // Si pasa las validaciones, simula login exitoso
-            loginError.classList.add('hidden');
             window.location.href = 'panel_paciente_inicio.html';
-            e.preventDefault();
         });
     </script>
 </body>
