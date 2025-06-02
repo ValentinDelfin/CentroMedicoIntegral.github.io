@@ -43,17 +43,15 @@
             <p class="text-brand-gray-DEFAULT mt-2">Bienvenido de nuevo</p>
         </div>
 
-        <form action="#" method="POST">
-            <!--
-            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded-md" role="alert">
-            <p>Datos incorrectos.</p>
+        <form id="loginForm" action="#" method="POST" autocomplete="off">
+            <div id="dniError" class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded-md hidden" role="alert">
+                <p>El DNI debe contener solo números, sin espacios, letras ni puntos.</p>
             </div>
-            -->
             <div class="mb-5">
                 <label for="dni" class="block mb-2 text-sm font-medium text-brand-gray-dark">Usuario (DNI)</label>
                 <input type="text" id="dni" name="dni"
                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-green focus:border-brand-green block w-full p-3 placeholder-gray-400"
-                       placeholder="Ingrese su DNI" required>
+                       placeholder="Ingrese su DNI" required inputmode="numeric" pattern="[0-9]+">
             </div>
 
             <div class="mb-6">
@@ -63,28 +61,58 @@
                        placeholder="•••••••••" required>
             </div>
 
-            
             <div class="mb-5">
-                <button type="button" onclick="window.location.href='#'"
+                <button type="button" onclick="window.location.href='forgot_pass.html'"
                         class="w-full text-sm text-brand-green hover:text-brand-green-dark hover:underline focus:outline-none text-center">
-                    <a href="forgot_pass.html" class="text-brand-green hover:text-brand-green-dark hover:underline">Olvidé mi contraseña</a>
+                    Olvidé mi contraseña
                 </button>
             </div>
 
             <div class="mb-5">
-                <button type="button" onclick="window.location.href='#'"
+                <button type="button" onclick="window.location.href='register.html'"
                         class="w-full text-sm text-brand-green hover:text-brand-green-dark hover:underline focus:outline-none text-center">
-                    <a href="register.html" class="text-brand-green hover:text-brand-green-dark hover:underline">Registrarse</a>
+                    Registrarse
                 </button>
             </div>
-
 
             <button type="submit"
                     class="w-full text-white bg-brand-green hover:bg-brand-green-dark focus:ring-4 focus:outline-none focus:ring-brand-green-light font-medium rounded-lg text-sm px-5 py-3 text-center transition-colors duration-300">
-                <a href="user_panel.html">Iniciar Sesión</a>
+                Iniciar Sesión
             </button>
         </form>
     </div>
 
+    <script>
+        const dniInput = document.getElementById('dni');
+        const dniError = document.getElementById('dniError');
+        const loginForm = document.getElementById('loginForm');
+
+        // Solo permite ingresar números y borra caracteres inválidos en tiempo real
+        dniInput.addEventListener('input', function(e) {
+            const value = dniInput.value;
+            // Si contiene algo que no sea dígito, lo elimina
+            const newValue = value.replace(/\D/g, '');
+            if (value !== newValue) {
+                dniInput.value = newValue;
+                dniError.classList.remove('hidden');
+            } else {
+                dniError.classList.add('hidden');
+            }
+        });
+
+        loginForm.addEventListener('submit', function(e) {
+            // Validación final antes del envío
+            const dniValue = dniInput.value;
+            if (!/^\d+$/.test(dniValue) || dniValue.length === 0) {
+                dniError.classList.remove('hidden');
+                e.preventDefault();
+                return false;
+            }
+            dniError.classList.add('hidden');
+            // Simula login exitoso para demo
+            window.location.href = 'user_panel.html';
+            e.preventDefault();
+        });
+    </script>
 </body>
 </html>
