@@ -109,7 +109,8 @@
         passwordInput.addEventListener('input', function(e) {
             loginError.classList.add('hidden');
         });
-loginForm.addEventListener('submit', function(e) {
+
+        loginForm.addEventListener('submit', function(e) {
             e.preventDefault(); // SIEMPRE prevenir el envío por defecto
 
             // Validación final de DNI
@@ -131,16 +132,8 @@ loginForm.addEventListener('submit', function(e) {
                 loginError.classList.add('hidden');
             }
 
-            // Redirección específica según el DNI
-            if (dniValue === '12345') {
-                window.location.href = 'panel_secretaria_dashboard.html';
-            } else if (dniValue === '6789') {
-                window.location.href = 'panel_medico_dashboard.html';
-            } else if (dniValue === '0000') {
-                window.location.href = 'panel_administrador_general.html';
-            } else {
-                window.location.href = 'panel_paciente_inicio.html';
-            }
+            // Si pasa las validaciones, simula login exitoso
+            window.location.href = 'panel_inicio_paciente.html';
         });
     </script>
 </body>
