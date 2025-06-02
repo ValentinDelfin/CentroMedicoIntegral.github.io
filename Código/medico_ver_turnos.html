@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Turnos Agendados - Panel Médico</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-green': { light: '#6EE7B7', DEFAULT: '#10B981', dark: '#047857' },
+                        'brand-gray': { light: '#F3F4F6', DEFAULT: '#9CA3AF', dark: '#4B5563' },
+                        'brand-blue': { 
+                            light: '#DBEAFE', 
+                            DEFAULT: '#3B82F6', 
+                            dark: '#1D4ED8',
+                        },
+                        'brand-red': { 
+                            light: '#FEE2E2', 
+                            DEFAULT: '#EF4444', 
+                            dark: '#B91C1C',
+                        },
+                        'brand-yellow': { 
+                            light: '#FEF3C7', 
+                            DEFAULT: '#F59E0B', 
+                            dark: '#B45309',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style> 
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; } 
+        /* Si se necesitaran modales, aquí iría .modal-overlay { z-index: 60; } */
+        select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+    </style>
+</head>
+<body class="bg-brand-gray-light min-h-screen">
+
+    <nav class="bg-brand-green-dark shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="panel_medico_dashboard.html" class="text-2xl font-bold text-white">Centro Médico</a>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-4">
+                            <a href="panel_medico_dashboard.html" class="text-green-100 hover:bg-brand-green hover:text-white px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
+                            <a href="medico_definir_disponibilidad.html" class="text-green-100 hover:bg-brand-green hover:text-white px-3 py-2 rounded-md text-sm font-medium">Definir Disponibilidad</a>
+                            <a href="medico_ver_turnos.html" class="bg-brand-green text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Mis Turnos</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-4 flex items-center md:ml-6">
+                        <a href="login.html" class="text-green-100 hover:bg-brand-green hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Cerrar Sesión</a>
+                    </div>
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <button type="button" id="mobile-menu-button-medico" class="bg-brand-green-dark inline-flex items-center justify-center p-2 rounded-md text-green-100 hover:text-white hover:bg-brand-green focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu-medico" aria-expanded="false">
+                        <span class="sr-only">Abrir menú</span>
+                        <svg class="block h-6 w-6" id="icon-open-medico" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                        <svg class="hidden h-6 w-6" id="icon-close-medico" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+         <div class="md:hidden hidden" id="mobile-menu-medico">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="panel_medico_dashboard.html" class="text-green-100 hover:bg-brand-green hover:text-white block px-3 py-2 rounded-md text-base font-medium">Dashboard</a>
+                <a href="medico_definir_disponibilidad.html" class="text-green-100 hover:bg-brand-green hover:text-white block px-3 py-2 rounded-md text-base font-medium">Definir Disponibilidad</a>
+                <a href="medico_ver_turnos.html" class="bg-brand-green text-white block px-3 py-2 rounded-md text-base font-medium" aria-current="page">Mis Turnos</a>
+                <a href="login.html" class="text-green-100 hover:bg-brand-green hover:text-white block px-3 py-2 rounded-md text-base font-medium">Cerrar Sesión</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-2 sm:px-4 lg:px-6 py-12 md:py-16">
+        <div class="bg-white p-4 md:p-6 rounded-xl shadow-2xl">
+            <header class="mb-8 text-center sm:text-left">
+                <h1 class="text-2xl md:text-3xl font-bold text-brand-green-dark">Mis Turnos Agendados</h1>
+                <p class="text-brand-gray-DEFAULT mt-1">Turnos para Dr. Ricardo Morales (Clínica Médica) - Hoy: Domingo, 1 de Junio de 2025</p>
+            </header>
+
+            <div class="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                <h3 class="text-lg font-semibold text-brand-gray-dark mb-3">Filtrar Turnos</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
+                    <div>
+                        <label for="filtro_paciente_medico" class="block text-sm font-medium text-brand-gray-dark">Paciente (Nombre/DNI)</label>
+                        <input type="text" id="filtro_paciente_medico" class="mt-1 bg-white border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-green focus:border-brand-green block w-full p-2.5" placeholder="Buscar paciente...">
+                    </div>
+                     <div>
+                        <label for="filtro_fecha_medico_desde" class="block text-sm font-medium text-brand-gray-dark">Fecha Desde</label>
+                        <input type="date" id="filtro_fecha_medico_desde" class="mt-1 bg-white border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-green focus:border-brand-green block w-full p-2.5">
+                    </div>
+                    <div>
+                        <label for="filtro_fecha_medico_hasta" class="block text-sm font-medium text-brand-gray-dark">Fecha Hasta</label>
+                        <input type="date" id="filtro_fecha_medico_hasta" class="mt-1 bg-white border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-green focus:border-brand-green block w-full p-2.5">
+                    </div>
+                     <div class="self-end">
+                        <button class="w-full bg-brand-green hover:bg-brand-green-dark text-white font-medium py-2.5 px-5 rounded-lg text-sm transition-colors">Aplicar Filtros</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto rounded-lg border border-gray-200">
+                <table class="min-w-full bg-white">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="py-3 px-4 text-left text-xs font-semibold text-brand-gray-dark uppercase tracking-wider">Paciente</th>
+                            <th class="py-3 px-4 text-left text-xs font-semibold text-brand-gray-dark uppercase tracking-wider">DNI</th>
+                            <th class="py-3 px-4 text-left text-xs font-semibold text-brand-gray-dark uppercase tracking-wider">Fecha y Hora</th>
+                            <th class="py-3 px-4 text-center text-xs font-semibold text-brand-gray-dark uppercase tracking-wider">Estado</th>
+                            </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="py-3 px-4 whitespace-nowrap text-sm text-gray-700">Ana Solís</td>
+                            <td class="py-3 px-4 whitespace-nowrap text-sm text-gray-500">38.123.789</td>
+                            <td class="py-3 px-4 whitespace-nowrap text-sm text-gray-500">Martes 03/06/2025 - 09:00 AM</td>
+                            <td class="py-3 px-4 whitespace-nowrap text-center"><span class="px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-brand-blue-light text-brand-blue-dark">Confirmado (Autom.)</span></td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 whitespace-nowrap text-sm text-gray-700">Luis Cáceres</td>
+                            <td class="py-3 px-4 whitespace-nowrap text-sm text-gray-500">30.555.111</td>
+                            <td class="py-3 px-4 whitespace-nowrap text-sm text-gray-500">Lunes 09/06/2025 - 11:00 AM</td>
+                            <td class="py-3 px-4 whitespace-nowrap text-center"><span class="px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-brand-yellow-light text-brand-yellow-dark">Reservado</span></td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 whitespace-nowrap text-sm text-gray-700">Carla Méndez</td>
+                            <td class="py-3 px-4 whitespace-nowrap text-sm text-gray-500">34.000.222</td>
+                            <td class="py-3 px-4 whitespace-nowrap text-sm text-gray-500">Miércoles 18/06/2025 - 04:30 PM</td>
+                            <td class="py-3 px-4 whitespace-nowrap text-center"><span class="px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-brand-blue-light text-brand-blue-dark">Confirmado</span></td>
+                        </tr>
+                        <tr class="bg-gray-50 opacity-70">
+                            <td class="py-3 px-4 whitespace-nowrap text-sm text-gray-600">Jorge Rios</td>
+                            <td class="py-3 px-4 whitespace-nowrap text-sm text-gray-500">27.888.999</td>
+                            <td class="py-3 px-4 whitespace-nowrap text-sm text-gray-500">Jueves 29/05/2025 - 10:00 AM</td>
+                            <td class="py-3 px-4 whitespace-nowrap text-center"><span class="px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-200 text-gray-600">Realizado</span></td>
+                        </tr>
+                        <tr class="bg-red-50 opacity-80">
+                            <td class="py-3 px-4 whitespace-nowrap text-sm text-gray-700">Laura Paez</td>
+                            <td class="py-3 px-4 whitespace-nowrap text-sm text-gray-500">31.777.666</td>
+                            <td class="py-3 px-4 whitespace-nowrap text-sm text-gray-500">Viernes 06/06/2025 - 09:30 AM</td>
+                            <td class="py-3 px-4 whitespace-nowrap text-center"><span class="px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-brand-red-light text-brand-red-dark">Cancelado (Pac.)</span></td>
+                        </tr>
+                         <tr>
+                            <td class="py-3 px-4 whitespace-nowrap text-sm text-gray-700">Martin Serra</td>
+                            <td class="py-3 px-4 whitespace-nowrap text-sm text-gray-500">36.123.456</td>
+                            <td class="py-3 px-4 whitespace-nowrap text-sm text-gray-500">Domingo 01/06/2025 - 10:00 PM</td>
+                            <td class="py-3 px-4 whitespace-nowrap text-center"><span class="px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-brand-blue-light text-brand-blue-dark">Confirmado (Autom.)</span></td>
+                        </tr>
+                        </tbody>
+                </table>
+            </div>
+             <div class="mt-6 flex justify-center">
+                <nav class="inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                    <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">Anterior</a>
+                    <a href="#" aria-current="page" class="relative z-10 inline-flex items-center px-4 py-2 border border-brand-green bg-brand-green-light text-sm font-medium text-brand-green-dark">1</a>
+                    <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">2</a>
+                    <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">Siguiente</a>
+                </nav>
+            </div>
+        </div>
+    </main>
+
+    <footer class="text-center text-sm text-brand-gray-DEFAULT py-8 mt-12 md:mt-16">
+        &copy; <span id="currentYear"></span> Centro Médico Integral. Todos los derechos reservados.
+    </footer>
+    <script>
+        // --- Script para menú móvil (Médico) ---
+        const mobileMenuButtonMedico = document.getElementById('mobile-menu-button-medico');
+        const mobileMenuMedico = document.getElementById('mobile-menu-medico');
+        const openIconMedico = document.getElementById('icon-open-medico');
+        const closeIconMedico = document.getElementById('icon-close-medico');
+
+        if (mobileMenuButtonMedico && mobileMenuMedico && openIconMedico && closeIconMedico) {
+            mobileMenuButtonMedico.addEventListener('click', () => {
+                mobileMenuMedico.classList.toggle('hidden');
+                openIconMedico.classList.toggle('hidden');
+                closeIconMedico.classList.toggle('hidden');
+                mobileMenuButtonMedico.setAttribute('aria-expanded', mobileMenuMedico.classList.contains('hidden') ? 'false' : 'true');
+            });
+        }
+        
+        // --- Año actual en el footer ---
+        const currentYearEl = document.getElementById('currentYear');
+        if (currentYearEl) {
+            currentYearEl.textContent = new Date().getFullYear();
+        }
+    </script>
+</body>
+</html>
