@@ -119,21 +119,22 @@
                 dniError.classList.remove('hidden');
                 loginError.classList.add('hidden');
                 return false;
-            } else {
-                dniError.classList.add('hidden');
-            }
-
-            // Si la contraseña contiene al menos un número, muestra error de login (simulación)
-            const passwordValue = passwordInput.value;
+                 const passwordValue = passwordInput.value;
             if (/\d/.test(passwordValue)) {
                 loginError.classList.remove('hidden');
                 return false;
             } else {
                 loginError.classList.add('hidden');
             }
+                 window.location.href = 'panel_paciente_inicio.html'; //so tood está bien pasa
+            } else {
+                dniError.classList.add('hidden');
+            }
 
+            // Si la contraseña contiene al menos un número, muestra error de login (simulación)
+           
             // Si pasa las validaciones, simula login exitoso
-            window.location.href = 'panel_paciente_inicio.html';
+           
         });
     </script>
 </body>
