@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - Centro Médico</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-green': {
+                            light: '#6EE7B7',
+                            DEFAULT: '#10B981',
+                            dark: '#047857',
+                        },
+                        'brand-gray': {
+                            light: '#F3F4F6',
+                            DEFAULT: '#9CA3AF',
+                            dark: '#4B5563',
+                        },
+                        'brand-warm': {
+                            DEFAULT: '#F3EADA',
+                        },
+                        'brand-red': {
+                            light: '#FEE2E2',
+                            DEFAULT: '#EF4444',
+                            dark: '#B91C1C',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-brand-gray-light">
+
+    <!-- Solo Navbar de horarios de atención -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <span class="text-2xl font-bold text-brand-green-dark">Centro Médico</span>
+                </div>
+                <div>
+                    <a href="#horarios" class="bg-brand-green-light text-brand-green-dark px-3 py-2 rounded-md text-sm font-medium hover:bg-brand-green-dark hover:text-white transition-colors duration-200">Horarios de Atención</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20">
+        <div class="flex flex-col md:flex-row items-center gap-8 md:gap-10 lg:gap-16">
+            <div class="w-full md:w-1/2 lg:w-5/12">
+                <img src="imagen.jpg" 
+                     alt="Fachada del Hospital Centro Médico Integral" 
+                     class="w-full h-auto object-cover rounded-lg shadow-xl aspect-[4/3] md:aspect-auto">
+            </div>
+            <div class="w-full md:w-1/2 lg:w-7/12 text-center md:text-left">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-green-dark mb-4 leading-tight">
+                    Bienvenido/a al Portal del Paciente
+                </h2>
+                <p class="text-lg text-brand-gray-dark mb-8 md:mb-10">
+                    Gestiona turnos, accede a información de salud y conoce nuestros horarios de atención. 
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                    <a href="paneles/register.html" class="inline-block bg-brand-green text-white font-bold text-lg sm:text-xl py-3 px-7 sm:py-4 sm:px-10 rounded-lg hover:bg-brand-green-dark transition-colors duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                        Registrarse
+                    </a>
+                    <a href="paneles/login.html" class="inline-block bg-brand-green text-white font-bold text-lg sm:text-xl py-3 px-7 sm:py-4 sm:px-10 rounded-lg hover:bg-brand-green-dark transition-colors duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                        Iniciar Sesión
+                    </a>
+                    <!-- Botón de Perfil al lado de Iniciar Sesión -->
+                    <a href="paneles/profile.html" class="inline-block bg-brand-gray-light text-brand-green-dark font-bold text-lg sm:text-xl py-3 px-7 sm:py-4 sm:px-10 rounded-lg border border-brand-green hover:bg-brand-green hover:text-white transition-colors duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A9.001 9.001 0 0112 15c2.386 0 4.567.932 6.121 2.804M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        Perfil
+                    </a>
+                </div>
+            </div>
+        </div>
+        <section class="mt-16 md:mt-24 text-center">
+            <h3 class="text-2xl font-semibold text-brand-gray-dark mb-8">Servicios Destacados</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <svg class="w-12 h-12 text-brand-green mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    <h4 class="text-xl font-semibold text-brand-green-dark mb-2">Agenda de Turnos Online</h4>
+                    <p class="text-brand-gray-DEFAULT text-sm">Solicita y gestiona tus citas médicas de forma rápida y sencilla.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                     <svg class="w-12 h-12 text-brand-green mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"></path></svg>
+                    <h4 class="text-xl font-semibold text-brand-green-dark mb-2">Consultas y Quejas</h4>
+                    <p class="text-brand-gray-DEFAULT text-sm">Envíanos tus inquietudes o feedback para mejorar nuestro servicio.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <svg class="w-12 h-12 text-brand-green mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v11.494m0 0a8.485 8.485 0 0011.97 0M12 17.747a8.485 8.485 0 01-11.97 0M12 17.747l-.009-.016l.01-.002l.004.002l-.005.016zm-6.032-5.491A4.5 4.5 0 0112 8.255a4.5 4.5 0 016.032 3.991m-12.064 0A4.5 4.5 0 0012 15.745a4.5 4.5 0 006.032-3.991M1.336 12.255a4.5 4.5 0 010-7.982m19.328 0a4.5 4.5 0 010 7.982"></path></svg>
+                    <h4 class="text-xl font-semibold text-brand-green-dark mb-2">Información de Salud</h4>
+                    <p class="text-brand-gray-DEFAULT text-sm">Accede a consejos y noticias relevantes para tu bienestar.</p>
+                </div>
+            </div>
+        </section>
+        <section id="horarios" class="mt-16 md:mt-24 text-center">
+            <h3 class="text-2xl font-semibold text-brand-green-dark mb-4">Horarios de Atención</h3>
+            <p class="text-lg text-brand-gray-dark mb-2">Lunes a Viernes: 8:00 a 20:00 hs</p>
+            <p class="text-lg text-brand-gray-dark">Sábados: 8:00 a 13:00 hs</p>
+            <p class="text-sm text-brand-gray-DEFAULT mt-3">Para emergencias, comuníquese al 0800-XXX-XXXX</p>
+        </section>
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 mt-16 md:mt-24">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center text-sm text-brand-gray-DEFAULT">
+            &copy; <span id="currentYear"></span> Centro Médico Integral. Todos los derechos reservados.
+        </div>
+    </footer>
+    <script>
+        // --- Para el año actual en el footer ---
+        const currentYearEl = document.getElementById('currentYear');
+        if (currentYearEl) {
+            currentYearEl.textContent = new Date().getFullYear();
+        }
+    </script>
+</body>
+</html>
