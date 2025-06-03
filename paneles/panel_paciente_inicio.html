@@ -12,21 +12,21 @@
                     colors: {
                         'brand-green': {
                             light: '#6EE7B7',
-                            DEFAULT: '#10B981', // Verde principal
-                            dark: '#047857',  // Verde oscuro
+                            DEFAULT: '#10B981',
+                            dark: '#047857',
                         },
                         'brand-gray': {
-                            light: '#F3F4F6', // Gris muy claro para el fondo del body
-                            DEFAULT: '#9CA3AF', // Gris medio
-                            dark: '#4B5563',   // Gris oscuro
+                            light: '#F3F4F6',
+                            DEFAULT: '#9CA3AF',
+                            dark: '#4B5563',
                         },
                         'brand-warm': {
                             DEFAULT: '#F3EADA',
                         },
-                        'brand-red': { // Para errores o acciones destructivas leves
+                        'brand-red': {
                             light: '#FEE2E2',
-                            DEFAULT: '#EF4444', // red-500
-                            dark: '#B91C1C',   // red-700
+                            DEFAULT: '#EF4444',
+                            dark: '#B91C1C',
                         }
                     }
                 }
@@ -38,7 +38,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         .modal-overlay {
-            z-index: 60; /* Navbar es z-50, así que el modal debe tener un z-index mayor */
+            z-index: 60;
         }
         select { 
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
@@ -66,7 +66,7 @@
                         <a href="panel_paciente_solicitar_turno.html" class="text-brand-gray-dark hover:bg-brand-green-light hover:text-brand-green-dark px-3 py-2 rounded-md text-sm font-medium">Solicitar Turno</a>
                         <a href="panel_paciente_gestionar_turnos.html" class="text-brand-gray-dark hover:bg-brand-green-light hover:text-brand-green-dark px-3 py-2 rounded-md text-sm font-medium">Gestionar Mis Turnos</a>
                         <a href="#" id="openComplaintModalLink" class="text-brand-gray-dark hover:bg-brand-green-light hover:text-brand-green-dark px-3 py-2 rounded-md text-sm font-medium">Quejas</a>
-                       
+                        <a href="panel_paciente_perfil.html" class="text-brand-gray-dark hover:bg-brand-green-light hover:text-brand-green-dark px-3 py-2 rounded-md text-sm font-medium">Perfil</a>
                         <a href="#" id="logoutLinkDesktop" class="text-red-600 hover:bg-red-100 hover:text-red-700 px-3 py-2 rounded-md text-sm font-medium">Cerrar Sesión</a>
                     </div>
                 </div>
@@ -89,7 +89,7 @@
                 <a href="panel_paciente_solicitar_turno.html" class="text-brand-gray-dark hover:bg-brand-green-light hover:text-brand-green-dark block px-3 py-2 rounded-md text-base font-medium">Solicitar Turno</a>
                 <a href="panel_paciente_gestionar_turnos.html" class="text-brand-gray-dark hover:bg-brand-green-light hover:text-brand-green-dark block px-3 py-2 rounded-md text-base font-medium">Gestionar Mis Turnos</a>
                 <a href="#" id="openComplaintModalLinkMobile" class="text-brand-gray-dark hover:bg-brand-green-light hover:text-brand-green-dark block px-3 py-2 rounded-md text-base font-medium">Quejas</a>
-                
+                <a href="panel_paciente_perfil.html" class="text-brand-gray-dark hover:bg-brand-green-light hover:text-brand-green-dark block px-3 py-2 rounded-md text-base font-medium">Perfil</a>
                 <a href="#" id="logoutLinkMobile" class="text-red-600 hover:bg-red-100 hover:text-red-700 block px-3 py-2 rounded-md text-base font-medium">Cerrar Sesión</a>
             </div>
             <p class="px-3 pb-2 text-xs text-gray-500 italic">Nota: La funcionalidad del menú móvil requiere JavaScript.</p>
@@ -143,6 +143,7 @@
         </div>
     </footer>
 
+    <!-- Modales y scripts igual que antes (no cambian) -->
     <div id="complaintModalOverlay" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 hidden modal-overlay">
         <div class="bg-white p-6 md:p-8 rounded-xl shadow-2xl text-left max-w-lg mx-auto transform transition-all sm:my-8 sm:align-middle w-full">
             <div class="flex justify-between items-center mb-6"><h3 class="text-xl leading-6 font-semibold text-brand-gray-dark">Enviar Queja o Sugerencia</h3><button type="button" id="closeComplaintModalXBtn" class="text-brand-gray-DEFAULT hover:text-brand-gray-dark p-1 rounded-full hover:bg-gray-100"><span class="sr-only">Cerrar</span><svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button></div>
