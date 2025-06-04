@@ -107,7 +107,67 @@
                     </li>
                 </ul>
             </div>
-<div class="admin-tab-content hidden" id="reportes-content" role="tabpanel" aria-labelledby="reportes-tab">
+
+            <div id="adminGeneralTabsContent">
+                <div class="admin-tab-content" id="crear-usuario-content" role="tabpanel" aria-labelledby="crear-usuario-tab">
+                    <h2 class="text-xl md:text-2xl font-semibold text-brand-gray-dark mb-6">Creación de Nuevo Usuario</h2>
+                    <form id="createUserForm" class="space-y-8 max-w-3xl mx-auto">
+                        <fieldset class="border border-gray-300 p-4 md:p-6 rounded-lg">
+                            <legend class="text-lg font-medium text-brand-gray-dark px-2 mb-3">Información de la Cuenta</legend>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+                                <div>
+                                    <label for="userDni" class="block text-sm font-medium text-brand-gray-dark">DNI</label>
+                                    <input type="text" id="userDni" name="userDni" class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required placeholder="Nro. de Documento">
+                                </div>
+                                <div>
+                                    <label for="userRole" class="block text-sm font-medium text-brand-gray-dark">Rol de Usuario</label>
+                                    <select id="userRole" name="userRole" class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
+                                        <option value="" disabled selected>Seleccionar rol...</option>
+                                        <option value="secretaria">Secretaria/o</option>
+                                        <option value="medico">Médico</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="userEmail" class="block text-sm font-medium text-brand-gray-dark">Correo Electrónico</label>
+                                    <input type="email" id="userEmail" name="userEmail" class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required placeholder="ejemplo@dominio.com">
+                                </div>
+                                <div>
+                                    <label for="userPassword" class="block text-sm font-medium text-brand-gray-dark">Contraseña Inicial</label>
+                                    <input type="text" id="userPassword" name="userPassword" class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required placeholder="Generar o ingresar contraseña">
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset class="border border-gray-300 p-4 md:p-6 rounded-lg">
+                            <legend class="text-lg font-medium text-brand-gray-dark px-2 mb-3">Datos Personales</legend>
+                             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+                                <div><label for="userName" class="block text-sm font-medium text-brand-gray-dark">Nombre(s)</label><input type="text" id="userName" name="userName" class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required placeholder="Nombre del usuario"></div>
+                                <div><label for="userSurname" class="block text-sm font-medium text-brand-gray-dark">Apellido(s)</label><input type="text" id="userSurname" name="userSurname" class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required placeholder="Apellido del usuario"></div>
+                                <div><label for="userPhone" class="block text-sm font-medium text-brand-gray-dark">Número de Celular</label><input type="tel" id="userPhone" name="userPhone" class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Ej: 3454010203"></div>
+                                <div class="md:col-span-2"><p class="text-xs text-gray-500 mt-2 italic">Los siguientes campos son principalmente para el rol Paciente:</p></div>
+                                <div><label for="userStreet" class="block text-sm font-medium text-brand-gray-dark">Calle</label><input type="text" id="userStreet" name="userStreet" class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"></div>
+                                <div><label for="userStreetNumber" class="block text-sm font-medium text-brand-gray-dark">Número</label><input type="text" id="userStreetNumber" name="userStreetNumber" class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"></div>
+                                <div><label for="userCity" class="block text-sm font-medium text-brand-gray-dark">Localidad</label><input type="text" id="userCity" name="userCity" class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"></div>
+                                <div><label for="userCountry" class="block text-sm font-medium text-brand-gray-dark">País</label><select id="userCountry" name="userCountry" class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"><option value="AR" selected>Argentina</option></select></div>
+            
+                            </div>
+                        </fieldset>
+                        <fieldset class="border border-gray-300 p-4 md:p-6 rounded-lg">
+                             <legend class="text-lg font-medium text-brand-gray-dark px-2 mb-3">Datos Específicos del Rol (si es Médico)</legend>
+                             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+                                 <div><label for="medicoSpecialty" class="block text-sm font-medium text-brand-gray-dark">Especialidad (si es Médico)</label><select id="medicoSpecialty" name="medicoSpecialty" class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"><option value="">N/A</option><option value="cardiologia">Cardiología</option><option value="clinica_medica">Clínica Médica</option></select></div>
+                                <div><label for="medicoLicense" class="block text-sm font-medium text-brand-gray-dark">Nº de Matrícula (si es Médico)</label><input type="text" id="medicoLicense" name="medicoLicense" class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Matrícula Profesional"></div>
+                             </div>
+                        </fieldset>
+                        <div id="createUserFormError" class="hidden text-sm text-red-600 p-3 bg-red-100 rounded-md border border-red-300">Por favor, complete todos los campos obligatorios básicos (DNI, Rol, Email, Contraseña, Nombre, Apellido).</div>
+                        <div class="pt-4 text-right">
+                            <button type="button" id="createUserBtn" class="text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base px-8 py-3 transition-colors duration-300 shadow-md hover:shadow-lg">
+                                Crear Usuario
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="admin-tab-content hidden" id="reportes-content" role="tabpanel" aria-labelledby="reportes-tab">
     <h2 class="text-xl md:text-2xl font-semibold text-brand-gray-dark mb-6">Reportes y Estadísticas</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
