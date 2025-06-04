@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - Panel del Paciente</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-green': {
+                            light: '#6EE7B7',
+                            DEFAULT: '#10B981',
+                            dark: '#047857',
+                        },
+                        'brand-gray': {
+                            light: '#F3F4F6',
+                            DEFAULT: '#9CA3AF',
+                            dark: '#4B5563',
+                        },
+                        'brand-warm': {
+                            DEFAULT: '#F3EADA',
+                        },
+                        'brand-red': {
+                            light: '#FEE2E2',
+                            DEFAULT: '#EF4444',
+                            dark: '#B91C1C',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .modal-overlay {
+            z-index: 60; /* Asegura que los modales estén por encima de otros elementos */
+        }
+        select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+        .profile-data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem; /* Ajuste del espaciado */
+        }
+        .password-input-error {
+            border-color: #EF4444; /* brand-red-DEFAULT */
+        }
+        .password-error-message {
+            color: #EF4444; /* brand-red-DEFAULT */
+            font-size: 0.875rem; /* text-sm */
+        }
+    </style>
+</head>
+<body class="bg-brand-gray-light">
+
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <a href="panel_paciente_inicio.html" class="text-2xl font-bold text-brand-green-dark">Centro Médico</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="panel_paciente_inicio.html" class="text-brand-gray-dark hover:bg-brand-green-light hover:text-brand-green-dark px-3 py-2 rounded-md text-sm font-medium">Inicio</a>
+                        <a href="panel_paciente_solicitar_turno.html" class="text-brand-gray-dark hover:bg-brand-green-light hover:text-brand-green-dark px-3 py-2 rounded-md text-sm font-medium">Solicitar Turno</a>
+                        <a href="panel_paciente_gestionar_turnos.html" class="text-brand-gray-dark hover:bg-brand-green-light hover:text-brand-green-dark px-3 py-2 rounded-md text-sm font-medium">Gestionar Mis Turnos</a>
+                        <a href="#" id="openComplaintModalLink" class="text-brand-gray-dark hover:bg-brand-green-light hover:text-brand-green-dark px-3 py-2 rounded-md text-sm font-medium">Quejas</a>
+                        <a href="panel_paciente_perfil.html" class="bg-brand-green-light text-brand-green-dark px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Perfil</a>
+                        <a href="#" id="logoutLinkDesktop" class="text-red-600 hover:bg-red-100 hover:text-red-700 px-3 py-2 rounded-md text-sm font-medium">Cerrar Sesión</a>
+                    </div>
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <button type="button" id="mobile-menu-button" class="bg-white inline-flex items-center justify-center p-2 rounded-md text-brand-gray-dark hover:text-brand-green-dark hover:bg-brand-green-light focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand-green" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Abrir menú principal</span>
+                        <svg class="block h-6 w-6" id="icon-open" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <svg class="hidden h-6 w-6" id="icon-close" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="panel_paciente_inicio.html" class="text-brand-gray-dark hover:bg-brand-green-light hover:text-brand-green-dark block px-3 py-2 rounded-md text-base font-medium">Inicio</a>
+                <a href="panel_paciente_solicitar_turno.html" class="text-brand-gray-dark hover:bg-brand-green-light hover:text-brand-green-dark block px-3 py-2 rounded-md text-base font-medium">Solicitar Turno</a>
+                <a href="panel_paciente_gestionar_turnos.html" class="text-brand-gray-dark hover:bg-brand-green-light hover:text-brand-green-dark block px-3 py-2 rounded-md text-base font-medium">Gestionar Mis Turnos</a>
+                <a href="#" id="openComplaintModalLinkMobile" class="text-brand-gray-dark hover:bg-brand-green-light hover:text-brand-green-dark block px-3 py-2 rounded-md text-base font-medium">Quejas</a>
+                <a href="panel_paciente_perfil.html" class="bg-brand-green-light text-brand-green-dark block px-3 py-2 rounded-md text-base font-medium" aria-current="page">Perfil</a>
+                <a href="#" id="logoutLinkMobile" class="text-red-600 hover:bg-red-100 hover:text-red-700 block px-3 py-2 rounded-md text-base font-medium">Cerrar Sesión</a>
+            </div>
+            <p class="px-3 pb-2 text-xs text-gray-500 italic">Nota: La funcionalidad del menú móvil requiere JavaScript.</p>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20">
+        <h2 class="text-3xl sm:text-4xl font-bold text-brand-green-dark mb-8 md:mb-10">Mi Perfil</h2>
+
+        <div class="bg-white p-6 md:p-8 rounded-xl shadow-xl">
+            <h3 class="text-2xl font-semibold text-brand-gray-dark mb-6">Datos Personales</h3>
+            <div class="profile-data-grid mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-brand-gray-dark">DNI</label>
+                    <p id="profile-dni" class="mt-1 text-lg text-gray-900">12.345.678</p> </div>
+                <div>
+                    <label class="block text-sm font-medium text-brand-gray-dark">Nombre y Apellido</label>
+                    <p id="profile-name" class="mt-1 text-lg text-gray-900">Juan Alberto Pérez</p> </div>
+                <div>
+                    <label class="block text-sm font-medium text-brand-gray-dark">Dirección y Número</label>
+                    <p id="profile-address" class="mt-1 text-lg text-gray-900">Av. Siempre Viva 742</p> </div>
+                <div>
+                    <label class="block text-sm font-medium text-brand-gray-dark">Localidad</label>
+                    <p id="profile-city" class="mt-1 text-lg text-gray-900">Springfield</p> </div>
+                <div>
+                    <label class="block text-sm font-medium text-brand-gray-dark">País</label>
+                    <p id="profile-country" class="mt-1 text-lg text-gray-900">Argentina</p> </div>
+                <div>
+                    <label class="block text-sm font-medium text-brand-gray-dark">Número de Teléfono</label>
+                    <p id="profile-phone" class="mt-1 text-lg text-gray-900">+54 9 11 1234-5678</p> </div>
+                <div>
+                    <label class="block text-sm font-medium text-brand-gray-dark">Obra Social</label>
+                    <p id="profile-health-insurance" class="mt-1 text-lg text-gray-900">OSDEPYM</p> </div>
+                <div>
+                    <label for="profile-email" class="block text-sm font-medium text-brand-gray-dark">Email (opcional)</label>
+                    <input type="email" name="profile-email" id="profile-email" class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-green focus:border-brand-green block w-full p-2.5" placeholder="juan.perez@ejemplo.com">
+                    <button type="button" id="saveEmailBtn" class="mt-2 inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-brand-green hover:bg-brand-green-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-green">
+                        Guardar Email
+                    </button>
+                     <p id="email-save-feedback" class="text-xs text-brand-green-dark mt-1 hidden"></p>
+                </div>
+            </div>
+
+            <div class="mt-8 border-t pt-6">
+                <h3 class="text-2xl font-semibold text-brand-gray-dark mb-4">Seguridad</h3>
+                <button type="button" id="openChangePasswordModalBtn" class="bg-brand-green text-white font-bold py-2.5 px-6 rounded-lg hover:bg-brand-green-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-green transition-colors duration-300">
+                    Cambiar Contraseña
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 mt-16 md:mt-24">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center text-sm text-brand-gray-DEFAULT">
+            &copy; <span id="currentYear"></span> Centro Médico Integral. Todos los derechos reservados.
+        </div>
+    </footer>
+
+    <div id="complaintModalOverlay" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 hidden modal-overlay">
+        <div class="bg-white p-6 md:p-8 rounded-xl shadow-2xl text-left max-w-lg mx-auto transform transition-all sm:my-8 sm:align-middle w-full">
+            <div class="flex justify-between items-center mb-6"><h3 class="text-xl leading-6 font-semibold text-brand-gray-dark">Enviar Queja o Sugerencia</h3><button type="button" id="closeComplaintModalXBtn" class="text-brand-gray-DEFAULT hover:text-brand-gray-dark p-1 rounded-full hover:bg-gray-100"><span class="sr-only">Cerrar</span><svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button></div>
+            <form id="complaintForm" class="space-y-4">
+                <div><label for="complaintType" class="block text-sm font-medium text-brand-gray-dark">Tipo de Queja/Sugerencia</label><select id="complaintType" name="complaintType" class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-green focus:border-brand-green block w-full p-2.5" required><option value="" disabled selected>Seleccione un tipo...</option><option value="atencion_medica">Atención Recibida (Personal Médico)</option><option value="atencion_admin">Atención Recibida (Personal Administrativo)</option><option value="instalaciones">Instalaciones del Centro</option><option value="problema_tecnico">Problema Técnico con el Portal</option><option value="tiempos_espera">Tiempos de Espera</option><option value="sugerencia">Sugerencia de Mejora</option><option value="otro">Otro</option></select></div>
+                <div><label for="complaintTitle" class="block text-sm font-medium text-brand-gray-dark">Asunto / Título</label><input type="text" name="complaintTitle" id="complaintTitle" class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-green focus:border-brand-green block w-full p-2.5" placeholder="Ej: Demora en la atención" required></div>
+                <div><label for="complaintMessage" class="block text-sm font-medium text-brand-gray-dark">Mensaje Detallado</label><textarea id="complaintMessage" name="complaintMessage" rows="4" class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-green focus:border-brand-green block w-full p-2.5" placeholder="Describa aquí su queja o sugerencia..." required></textarea></div>
+                <div id="complaintFormError" class="hidden text-sm text-brand-red-DEFAULT mt-2">Por favor, complete todos los campos.</div>
+            </form>
+            <div class="mt-6 sm:mt-8 sm:flex sm:flex-row-reverse gap-3"><button type="button" id="sendComplaintBtn" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-brand-green text-base font-medium text-white hover:bg-brand-green-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-green sm:ml-3 sm:w-auto sm:text-sm">Enviar</button><button type="button" id="closeComplaintModalBtn" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm">Cerrar</button></div>
+        </div>
+    </div>
+    <div id="complaintSuccessModalOverlay" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 hidden modal-overlay">
+        <div class="bg-white p-6 md:p-8 rounded-xl shadow-2xl text-center max-w-sm mx-auto w-full">
+            <svg class="w-16 h-16 text-brand-green mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <h3 class="text-xl leading-6 font-medium text-brand-green-dark mb-3">¡Enviado!</h3>
+            <p class="text-sm text-brand-gray-dark mb-6">Gracias, tu queja/sugerencia ha sido enviada correctamente.</p>
+            <button type="button" id="closeComplaintSuccessModalBtn" class="inline-block w-full sm:w-auto bg-brand-green text-white font-bold py-2.5 px-6 rounded-lg hover:bg-brand-green-dark">Aceptar</button>
+        </div>
+    </div>
+
+    <div id="logoutConfirmationModalOverlay" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 hidden modal-overlay">
+        <div class="bg-white p-6 md:p-8 rounded-xl shadow-2xl text-left max-w-sm mx-auto transform transition-all sm:my-8 sm:align-middle w-full">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl leading-6 font-medium text-brand-gray-dark">Confirmar Cierre de Sesión</h3>
+                <button type="button" id="closeLogoutModalXBtn" class="text-brand-gray-DEFAULT hover:text-brand-gray-dark p-1 rounded-full hover:bg-gray-100">
+                    <span class="sr-only">Cerrar</span>
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="mt-2"><p class="text-sm text-brand-gray-dark">¿Estás seguro/a de que quieres cerrar tu sesión actual?</p></div>
+            <div class="mt-6 sm:mt-8 sm:flex sm:flex-row-reverse gap-3">
+                <button type="button" id="confirmLogoutBtn" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-500 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">Aceptar y Cerrar Sesión</button>
+                <button type="button" id="cancelLogoutBtn" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="changePasswordModalOverlay" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 hidden modal-overlay">
+        <div class="bg-white p-6 md:p-8 rounded-xl shadow-2xl text-left max-w-md mx-auto transform transition-all sm:my-8 sm:align-middle w-full">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl leading-6 font-semibold text-brand-gray-dark">Cambiar Contraseña</h3>
+                <button type="button" id="closeChangePasswordModalXBtn" class="text-brand-gray-DEFAULT hover:text-brand-gray-dark p-1 rounded-full hover:bg-gray-100">
+                    <span class="sr-only">Cerrar</span>
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+            <form id="changePasswordForm" class="space-y-4">
+                <div>
+                    <label for="currentPassword" class="block text-sm font-medium text-brand-gray-dark">Contraseña Actual</label>
+                    <input type="password" name="currentPassword" id="currentPassword" class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-green focus:border-brand-green block w-full p-2.5" required>
+                    <p id="currentPasswordError" class="password-error-message mt-1 hidden">Contraseña incorrecta.</p>
+                </div>
+                <div>
+                    <label for="newPassword" class="block text-sm font-medium text-brand-gray-dark">Nueva Contraseña</label>
+                    <input type="password" name="newPassword" id="newPassword" class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-green focus:border-brand-green block w-full p-2.5" required>
+                </div>
+                <div>
+                    <label for="confirmNewPassword" class="block text-sm font-medium text-brand-gray-dark">Confirmar Nueva Contraseña</label>
+                    <input type="password" name="confirmNewPassword" id="confirmNewPassword" class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-green focus:border-brand-green block w-full p-2.5" required>
+                    <p id="confirmNewPasswordError" class="password-error-message mt-1 hidden">Las nuevas contraseñas no coinciden.</p>
+                </div>
+                 <p id="changePasswordFormError" class="password-error-message mt-1 hidden">Por favor, complete todos los campos.</p>
+            </form>
+            <div class="mt-6 sm:mt-8 sm:flex sm:flex-row-reverse gap-3">
+                <button type="button" id="savePasswordChangeBtn" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-brand-green text-base font-medium text-white hover:bg-brand-green-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-green sm:ml-3 sm:w-auto sm:text-sm">Guardar Cambio</button>
+                <button type="button" id="cancelPasswordChangeBtn" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="passwordChangedSuccessModalOverlay" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 hidden modal-overlay">
+        <div class="bg-white p-6 md:p-8 rounded-xl shadow-2xl text-center max-w-sm mx-auto w-full">
+            <svg class="w-16 h-16 text-brand-green mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <h3 class="text-xl leading-6 font-medium text-brand-green-dark mb-3">¡Éxito!</h3>
+            <p class="text-sm text-brand-gray-dark mb-6">Contraseña cambiada correctamente.</p>
+            <button type="button" id="acceptPasswordChangedBtn" class="inline-block w-full sm:w-auto bg-brand-green text-white font-bold py-2.5 px-6 rounded-lg hover:bg-brand-green-dark">Aceptar</button>
+        </div>
+    </div>
+
+
+    <script>
+        // --- Script para menú móvil (hamburguesa) ---
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const openIcon = document.getElementById('icon-open');
+        const closeIcon = document.getElementById('icon-close');
+
+        if (mobileMenuButton && mobileMenu && openIcon && closeIcon) {
+            mobileMenuButton.addEventListener('click', () => {
+                const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true' || false;
+                mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
+                mobileMenu.classList.toggle('hidden');
+                openIcon.classList.toggle('hidden');
+                closeIcon.classList.toggle('hidden');
+            });
+        }
+
+        // --- Para el año actual en el footer ---
+        const currentYearEl = document.getElementById('currentYear');
+        if (currentYearEl) {
+            currentYearEl.textContent = new Date().getFullYear();
+        }
+
+        // --- Lógica para Modal de Quejas (ya existente, no se modifica) ---
+        const openComplaintModalLink = document.getElementById('openComplaintModalLink');
+        const openComplaintModalLinkMobile = document.getElementById('openComplaintModalLinkMobile');
+        const complaintModalOverlay = document.getElementById('complaintModalOverlay');
+        const closeComplaintModalXBtn = document.getElementById('closeComplaintModalXBtn');
+        const closeComplaintModalBtn = document.getElementById('closeComplaintModalBtn');
+        const sendComplaintBtn = document.getElementById('sendComplaintBtn');
+        const complaintForm = document.getElementById('complaintForm');
+        const complaintFormError = document.getElementById('complaintFormError');
+        const complaintSuccessModalOverlay = document.getElementById('complaintSuccessModalOverlay');
+        const closeComplaintSuccessModalBtn = document.getElementById('closeComplaintSuccessModalBtn');
+
+        function showComplaintModal() {
+            if (complaintModalOverlay) complaintModalOverlay.classList.remove('hidden');
+        }
+        function hideComplaintModal() {
+            if (complaintModalOverlay) complaintModalOverlay.classList.add('hidden');
+            if (complaintForm) complaintForm.reset();
+            if (complaintFormError) complaintFormError.classList.add('hidden');
+        }
+
+        if (openComplaintModalLink) {
+             openComplaintModalLink.addEventListener('click', function(event) {
+                 event.preventDefault();
+                 showComplaintModal();
+             });
+        }
+        if (openComplaintModalLinkMobile) {
+            openComplaintModalLinkMobile.addEventListener('click', function(event) {
+                event.preventDefault();
+                if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                    if (openIcon) openIcon.classList.remove('hidden');
+                    if (closeIcon) closeIcon.classList.add('hidden');
+                    if (mobileMenuButton) mobileMenuButton.setAttribute('aria-expanded', 'false');
+                }
+                showComplaintModal();
+            });
+        }
+        if (closeComplaintModalXBtn) closeComplaintModalXBtn.addEventListener('click', hideComplaintModal);
+        if (closeComplaintModalBtn) closeComplaintModalBtn.addEventListener('click', hideComplaintModal);
+        if (sendComplaintBtn && complaintForm) {
+            sendComplaintBtn.addEventListener('click', function() {
+                let isValid = true;
+                if (!complaintForm.complaintType.value) isValid = false; // Simplificado
+                if (complaintForm.complaintTitle.value.trim() === "") isValid = false;
+                if (complaintForm.complaintMessage.value.trim() === "") isValid = false;
+
+                if (isValid) {
+                    hideComplaintModal();
+                    if (complaintSuccessModalOverlay) complaintSuccessModalOverlay.classList.remove('hidden');
+                    if (complaintFormError) complaintFormError.classList.add('hidden');
+                } else {
+                    if (complaintFormError) complaintFormError.classList.remove('hidden');
+                }
+            });
+        }
+        if (closeComplaintSuccessModalBtn && complaintSuccessModalOverlay) {
+            closeComplaintSuccessModalBtn.addEventListener('click', function() {
+                complaintSuccessModalOverlay.classList.add('hidden');
+            });
+        }
+
+        // --- Lógica para Modal de Cerrar Sesión (ya existente, no se modifica) ---
+        const logoutLinkDesktop = document.getElementById('logoutLinkDesktop');
+        const logoutLinkMobile = document.getElementById('logoutLinkMobile');
+        const logoutConfirmationModalOverlay = document.getElementById('logoutConfirmationModalOverlay');
+        const closeLogoutModalXBtn = document.getElementById('closeLogoutModalXBtn');
+        const confirmLogoutBtn = document.getElementById('confirmLogoutBtn');
+        const cancelLogoutBtn = document.getElementById('cancelLogoutBtn');
+
+        function showLogoutModal(event) {
+            event.preventDefault();
+            if (logoutConfirmationModalOverlay) {
+                logoutConfirmationModalOverlay.classList.remove('hidden');
+            }
+            if (event.currentTarget.id === 'logoutLinkMobile' && mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+                if(openIcon) openIcon.classList.remove('hidden');
+                if(closeIcon) closeIcon.classList.add('hidden');
+                if(mobileMenuButton) mobileMenuButton.setAttribute('aria-expanded', 'false');
+            }
+        }
+        function hideLogoutModal() {
+            if (logoutConfirmationModalOverlay) {
+                logoutConfirmationModalOverlay.classList.add('hidden');
+            }
+        }
+        if (logoutLinkDesktop) logoutLinkDesktop.addEventListener('click', showLogoutModal);
+        if (logoutLinkMobile) logoutLinkMobile.addEventListener('click', showLogoutModal);
+        if (closeLogoutModalXBtn) closeLogoutModalXBtn.addEventListener('click', hideLogoutModal);
+        if (cancelLogoutBtn) cancelLogoutBtn.addEventListener('click', hideLogoutModal);
+        if (confirmLogoutBtn) {
+            confirmLogoutBtn.addEventListener('click', function() {
+                hideLogoutModal();
+                // Simulación de redirección
+                console.log("Redirigiendo a login.html...");
+                // window.location.href = 'login.html'; // Descomentar para redirección real
+            });
+        }
+
+        // --- Lógica para guardar Email ---
+        const saveEmailBtn = document.getElementById('saveEmailBtn');
+        const profileEmailInput = document.getElementById('profile-email');
+        const emailSaveFeedback = document.getElementById('email-save-feedback');
+
+        if (saveEmailBtn && profileEmailInput && emailSaveFeedback) {
+            saveEmailBtn.addEventListener('click', function() {
+                const emailValue = profileEmailInput.value.trim();
+                if (emailValue === "") {
+                    emailSaveFeedback.textContent = "Por favor, ingrese un email.";
+                    emailSaveFeedback.classList.remove('hidden', 'text-brand-green-dark');
+                    emailSaveFeedback.classList.add('text-brand-red-DEFAULT');
+                } else if (!/^\S+@\S+\.\S+$/.test(emailValue)) { // Validación simple de formato de email
+                     emailSaveFeedback.textContent = "Formato de email inválido.";
+                     emailSaveFeedback.classList.remove('hidden', 'text-brand-green-dark');
+                     emailSaveFeedback.classList.add('text-brand-red-DEFAULT');
+                } else {
+                    // Simulación de guardado
+                    console.log("Email guardado:", emailValue);
+                    emailSaveFeedback.textContent = "Email guardado correctamente.";
+                    emailSaveFeedback.classList.remove('hidden', 'text-brand-red-DEFAULT');
+                    emailSaveFeedback.classList.add('text-brand-green-dark');
+                    // Opcional: deshabilitar el input o cambiar el texto del botón
+                    // profileEmailInput.disabled = true;
+                    // saveEmailBtn.textContent = "Email Guardado";
+                }
+                emailSaveFeedback.classList.remove('hidden');
+                setTimeout(() => {
+                    emailSaveFeedback.classList.add('hidden');
+                }, 3000);
+            });
+        }
+
+
+        // --- Lógica para Modal de Cambiar Contraseña ---
+        const openChangePasswordModalBtn = document.getElementById('openChangePasswordModalBtn');
+        const changePasswordModalOverlay = document.getElementById('changePasswordModalOverlay');
+        const closeChangePasswordModalXBtn = document.getElementById('closeChangePasswordModalXBtn');
+        const cancelPasswordChangeBtn = document.getElementById('cancelPasswordChangeBtn');
+        const savePasswordChangeBtn = document.getElementById('savePasswordChangeBtn');
+        const changePasswordForm = document.getElementById('changePasswordForm');
+        const currentPasswordInput = document.getElementById('currentPassword');
+        const newPasswordInput = document.getElementById('newPassword');
+        const confirmNewPasswordInput = document.getElementById('confirmNewPassword');
+        const currentPasswordError = document.getElementById('currentPasswordError');
+        const confirmNewPasswordError = document.getElementById('confirmNewPasswordError');
+        const changePasswordFormError = document.getElementById('changePasswordFormError'); // Para error general del form
+        const passwordChangedSuccessModalOverlay = document.getElementById('passwordChangedSuccessModalOverlay');
+        const acceptPasswordChangedBtn = document.getElementById('acceptPasswordChangedBtn');
+
+        function showChangePasswordModal() {
+            if (changePasswordModalOverlay) changePasswordModalOverlay.classList.remove('hidden');
+            resetPasswordChangeForm();
+        }
+
+        function hideChangePasswordModal() {
+            if (changePasswordModalOverlay) changePasswordModalOverlay.classList.add('hidden');
+            resetPasswordChangeForm();
+        }
+
+        function resetPasswordChangeForm() {
+            if (changePasswordForm) changePasswordForm.reset();
+            if (currentPasswordInput) currentPasswordInput.classList.remove('password-input-error');
+            if (newPasswordInput) newPasswordInput.classList.remove('password-input-error');
+            if (confirmNewPasswordInput) confirmNewPasswordInput.classList.remove('password-input-error');
+            if (currentPasswordError) currentPasswordError.classList.add('hidden');
+            if (confirmNewPasswordError) confirmNewPasswordError.classList.add('hidden');
+            if (changePasswordFormError) changePasswordFormError.classList.add('hidden');
+        }
+
+        function showPasswordChangedSuccessModal() {
+            if (passwordChangedSuccessModalOverlay) passwordChangedSuccessModalOverlay.classList.remove('hidden');
+        }
+
+        function hidePasswordChangedSuccessModal() {
+            if (passwordChangedSuccessModalOverlay) passwordChangedSuccessModalOverlay.classList.add('hidden');
+        }
+
+        if (openChangePasswordModalBtn) {
+            openChangePasswordModalBtn.addEventListener('click', showChangePasswordModal);
+        }
+        if (closeChangePasswordModalXBtn) {
+            closeChangePasswordModalXBtn.addEventListener('click', hideChangePasswordModal);
+        }
+        if (cancelPasswordChangeBtn) {
+            cancelPasswordChangeBtn.addEventListener('click', hideChangePasswordModal);
+        }
+
+        if (savePasswordChangeBtn && changePasswordForm) {
+            savePasswordChangeBtn.addEventListener('click', function() {
+                let isValid = true;
+                // Resetear errores visuales
+                currentPasswordInput.classList.remove('password-input-error');
+                currentPasswordError.classList.add('hidden');
+                newPasswordInput.classList.remove('password-input-error');
+                confirmNewPasswordInput.classList.remove('password-input-error');
+                confirmNewPasswordError.classList.add('hidden');
+                changePasswordFormError.classList.add('hidden');
+
+                const currentPass = currentPasswordInput.value;
+                const newPass = newPasswordInput.value;
+                const confirmNewPass = confirmNewPasswordInput.value;
+
+                // Validación de campos vacíos
+                if (currentPass.trim() === "" || newPass.trim() === "" || confirmNewPass.trim() === "") {
+                    changePasswordFormError.textContent = "Por favor, complete todos los campos.";
+                    changePasswordFormError.classList.remove('hidden');
+                    if (currentPass.trim() === "") currentPasswordInput.classList.add('password-input-error');
+                    if (newPass.trim() === "") newPasswordInput.classList.add('password-input-error');
+                    if (confirmNewPass.trim() === "") confirmNewPasswordInput.classList.add('password-input-error');
+                    isValid = false;
+                }
+
+                // Validación de contraseña actual (simulada: no puede ser solo números)
+                // Solo se ejecuta si los campos no están vacíos
+                if (isValid && /^\d+$/.test(currentPass)) { // Verifica si son solo dígitos
+                    currentPasswordError.textContent = "Contraseña incorrecta (no debe ser solo números).";
+                    currentPasswordError.classList.remove('hidden');
+                    currentPasswordInput.classList.add('password-input-error');
+                    isValid = false;
+                }
+                // Podrías agregar más validaciones para currentPass aquí si fuera real,
+                // como verificarla contra un hash, etc.
+
+                // Validación de nueva contraseña y confirmación
+                // Solo se ejecuta si los campos no están vacíos y la contraseña actual (simulada) es "válida"
+                if (isValid && newPass !== confirmNewPass) {
+                    confirmNewPasswordError.textContent = "Las nuevas contraseñas no coinciden.";
+                    confirmNewPasswordError.classList.remove('hidden');
+                    newPasswordInput.classList.add('password-input-error');
+                    confirmNewPasswordInput.classList.add('password-input-error');
+                    isValid = false;
+                } else if (isValid && newPass.length < 6) { // Ejemplo: longitud mínima para nueva contraseña
+                    confirmNewPasswordError.textContent = "La nueva contraseña debe tener al menos 6 caracteres.";
+                    confirmNewPasswordError.classList.remove('hidden');
+                    newPasswordInput.classList.add('password-input-error');
+                    // No es necesario marcar confirmNewPasswordInput aquí si el error es sobre newPassword
+                    isValid = false;
+                }
+
+
+                if (isValid) {
+                    // Aquí iría la lógica para enviar la contraseña al servidor
+                    console.log("Simulando cambio de contraseña...");
+                    console.log("Contraseña actual (para verificación en backend):", currentPass);
+                    console.log("Nueva contraseña (para guardar en backend):", newPass);
+
+                    hideChangePasswordModal();
+                    showPasswordChangedSuccessModal();
+                }
+            });
+        }
+
+        if (acceptPasswordChangedBtn) {
+            acceptPasswordChangedBtn.addEventListener('click', hidePasswordChangedSuccessModal);
+        }
+
+
+        // --- Lógica para cerrar modales al hacer clic fuera ---
+        [complaintModalOverlay, complaintSuccessModalOverlay, logoutConfirmationModalOverlay, changePasswordModalOverlay, passwordChangedSuccessModalOverlay].forEach(overlay => {
+            if (overlay) {
+                overlay.addEventListener('click', function(event) {
+                    if (event.target === overlay) { // Solo si se hace clic en el fondo del overlay
+                        if (overlay.id === 'complaintModalOverlay') hideComplaintModal();
+                        else if (overlay.id === 'logoutConfirmationModalOverlay') hideLogoutModal();
+                        else if (overlay.id === 'changePasswordModalOverlay') hideChangePasswordModal();
+                        else if (overlay.id === 'passwordChangedSuccessModalOverlay') hidePasswordChangedSuccessModal();
+                        else overlay.classList.add('hidden'); // Para complaintSuccessModalOverlay que no tiene función hide específica
+                    }
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
