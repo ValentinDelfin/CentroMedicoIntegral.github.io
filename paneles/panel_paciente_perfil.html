@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil de Usuario - Centro Médico</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-green': { light: '#6EE7B7', DEFAULT: '#10B981', dark: '#047857' },
+                        'brand-gray': { light: '#F3F4F6', DEFAULT: '#9CA3AF', dark: '#4B5563' },
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    </style>
+</head>
+<body class="bg-brand-gray-light min-h-screen flex items-center justify-center py-10 px-4">
+
+    <div class="bg-white p-8 md:p-10 rounded-xl shadow-2xl w-full max-w-xl">
+        <div class="mb-8 text-center">
+            <h1 class="text-3xl font-bold text-brand-green-dark">Perfil de Usuario</h1>
+            <p class="text-brand-gray-DEFAULT mt-2">Aquí puedes ver y editar tus datos personales.</p>
+        </div>
+        <form id="perfilForm" class="space-y-6">
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <label for="dni" class="block mb-2 text-sm font-medium text-brand-gray-dark">DNI</label>
+                    <input type="text" id="dni" name="dni" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-green focus:border-brand-green block w-full p-3" required readonly>
+                </div>
+                <div>
+                    <label for="nombre" class="block mb-2 text-sm font-medium text-brand-gray-dark">Nombre</label>
+                    <input type="text" id="nombre" name="nombre" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-green focus:border-brand-green block w-full p-3" required readonly>
+                </div>
+                <div>
+                    <label for="apellido" class="block mb-2 text-sm font-medium text-brand-gray-dark">Apellido</label>
+                    <input type="text" id="apellido" name="apellido" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-green focus:border-brand-green block w-full p-3" required readonly>
+                </div>
+                <div>
+                    <label for="telefono" class="block mb-2 text-sm font-medium text-brand-gray-dark">Teléfono</label>
+                    <input type="tel" id="telefono" name="telefono" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-green focus:border-brand-green block w-full p-3" required readonly>
+                </div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <label for="calle" class="block mb-2 text-sm font-medium text-brand-gray-dark">Calle</label>
+                    <input type="text" id="calle" name="calle" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-green focus:border-brand-green block w-full p-3" required readonly>
+                </div>
+                <div>
+                    <label for="numero" class="block mb-2 text-sm font-medium text-brand-gray-dark">Número</label>
+                    <input type="text" id="numero" name="numero" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-green focus:border-brand-green block w-full p-3" required readonly>
+                </div>
+                <div>
+                    <label for="localidad" class="block mb-2 text-sm font-medium text-brand-gray-dark">Localidad</label>
+                    <input type="text" id="localidad" name="localidad" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-green focus:border-brand-green block w-full p-3" required readonly>
+                </div>
+                <div>
+                    <label for="pais" class="block mb-2 text-sm font-medium text-brand-gray-dark">País</label>
+                    <select id="pais" name="pais" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-green focus:border-brand-green block w-full p-3" disabled>
+                        <option value="AR">Argentina</option>
+                        <option value="UY">Uruguay</option>
+                        <option value="PY">Paraguay</option>
+                        <option value="CL">Chile</option>
+                        <option value="BO">Bolivia</option>
+                        <option value="BR">Brasil</option>
+                        <option value="PE">Perú</option>
+                        <option value="CO">Colombia</option>
+                        <option value="VE">Venezuela</option>
+                        <option value="EC">Ecuador</option>
+                        <option value="MX">México</option>
+                        <option value="ES">España</option>
+                    </select>
+                </div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <label for="cobertura" class="block mb-2 text-sm font-medium text-brand-gray-dark">Cobertura médica</label>
+                    <select id="cobertura" name="cobertura" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-green focus:border-brand-green block w-full p-3" disabled>
+                        <option value="particular">Particular</option>
+                        <option value="osde">OSDE</option>
+                        <option value="swiss_medical">Swiss Medical</option>
+                        <option value="galeno">Galeno</option>
+                        <option value="pami">PAMI</option>
+                        <option value="ioma">IOMA</option>
+                        <option value="otra">Otra</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="email" class="block mb-2 text-sm font-medium text-brand-gray-dark">Email (opcional)</label>
+                    <input type="email" id="email" name="email" placeholder="ejemplo@email.com" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-green focus:border-brand-green block w-full p-3" readonly>
+                </div>
+            </div>
+            <div class="flex flex-col md:flex-row gap-3 mt-6 justify-between">
+                <button type="button" id="editarBtn" class="bg-brand-green text-white font-medium rounded-lg px-6 py-2 transition hover:bg-brand-green-dark w-full md:w-auto">Editar</button>
+                <button type="button" id="guardarBtn" class="hidden bg-brand-green-dark text-white font-medium rounded-lg px-6 py-2 transition hover:bg-brand-green w-full md:w-auto">Guardar</button>
+                <button type="button" id="cancelarBtn" class="hidden bg-brand-gray-dark text-white font-medium rounded-lg px-6 py-2 transition hover:bg-brand-gray w-full md:w-auto">Cancelar</button>
+                <button type="button" id="recuperarBtn" class="bg-white text-brand-green border border-brand-green font-medium rounded-lg px-6 py-2 transition hover:bg-brand-green hover:text-white w-full md:w-auto">Recuperar Contraseña</button>
+            </div>
+        </form>
+        <div id="mensajePerfil" class="mt-5 text-center text-sm text-brand-green-dark font-semibold hidden"></div>
+    </div>
+
+    <!-- Modal para recuperación de contraseña -->
+    <div id="modalRecuperar" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-8 w-full max-w-sm mx-auto shadow-2xl text-center">
+            <h2 class="text-xl font-bold mb-4 text-brand-green-dark">Recuperar Contraseña</h2>
+            <p class="mb-4 text-brand-gray-dark text-sm">¿Deseas recibir un correo para restablecer tu contraseña?</p>
+            <button id="enviarRecuperacionBtn" class="bg-brand-green text-white px-6 py-2 rounded-lg font-medium hover:bg-brand-green-dark w-full mb-2">Enviar correo de recuperación</button>
+            <button id="cerrarModalRecuperar" class="bg-brand-gray-dark text-white px-6 py-2 rounded-lg font-medium hover:bg-brand-gray w-full">Cancelar</button>
+        </div>
+    </div>
+
+    <script>
+        // Simulación de datos de usuario (esto debería venir del backend)
+        const usuario = {
+            dni: "32.456.789",
+            nombre: "Valentina",
+            apellido: "Delfín",
+            calle: "Av. Libertador",
+            numero: "1234",
+            localidad: "Buenos Aires",
+            pais: "AR",
+            telefono: "+54 9 11 12345678",
+            cobertura: "osde",
+            email: "",
+        };
+
+        // Inicialización de campos
+        function cargarDatos() {
+            document.getElementById('dni').value = usuario.dni;
+            document.getElementById('nombre').value = usuario.nombre;
+            document.getElementById('apellido').value = usuario.apellido;
+            document.getElementById('calle').value = usuario.calle;
+            document.getElementById('numero').value = usuario.numero;
+            document.getElementById('localidad').value = usuario.localidad;
+            document.getElementById('pais').value = usuario.pais;
+            document.getElementById('telefono').value = usuario.telefono;
+            document.getElementById('cobertura').value = usuario.cobertura;
+            document.getElementById('email').value = usuario.email;
+        }
+        cargarDatos();
+
+        // Edición de perfil
+        const form = document.getElementById('perfilForm');
+        const editarBtn = document.getElementById('editarBtn');
+        const guardarBtn = document.getElementById('guardarBtn');
+        const cancelarBtn = document.getElementById('cancelarBtn');
+        const mensaje = document.getElementById('mensajePerfil');
+
+        function setEditable(editable) {
+            // Solo DNI permanece readonly siempre
+            ['nombre','apellido','calle','numero','localidad','pais','telefono','cobertura','email'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el.tagName === "SELECT") {
+                    el.disabled = !editable;
+                } else {
+                    el.readOnly = !editable;
+                }
+            });
+            editarBtn.classList.toggle('hidden', editable);
+            guardarBtn.classList.toggle('hidden', !editable);
+            cancelarBtn.classList.toggle('hidden', !editable);
+        }
+
+        editarBtn.addEventListener('click', () => setEditable(true));
+        cancelarBtn.addEventListener('click', () => {
+            cargarDatos();
+            setEditable(false);
+            mensaje.classList.add('hidden');
+        });
+
+        guardarBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            // Aquí iría la lógica de actualización hacia el backend
+            usuario.nombre = document.getElementById('nombre').value;
+            usuario.apellido = document.getElementById('apellido').value;
+            usuario.calle = document.getElementById('calle').value;
+            usuario.numero = document.getElementById('numero').value;
+            usuario.localidad = document.getElementById('localidad').value;
+            usuario.pais = document.getElementById('pais').value;
+            usuario.telefono = document.getElementById('telefono').value;
+            usuario.cobertura = document.getElementById('cobertura').value;
+            usuario.email = document.getElementById('email').value;
+            setEditable(false);
+            mensaje.textContent = "¡Perfil actualizado correctamente!";
+            mensaje.classList.remove('hidden');
+        });
+
+        // Recuperar contraseña
+        const recuperarBtn = document.getElementById('recuperarBtn');
+        const modalRecuperar = document.getElementById('modalRecuperar');
+        const cerrarModalRecuperar = document.getElementById('cerrarModalRecuperar');
+        const enviarRecuperacionBtn = document.getElementById('enviarRecuperacionBtn');
+
+        recuperarBtn.addEventListener('click', () => {
+            modalRecuperar.classList.remove('hidden');
+            modalRecuperar.classList.add('flex');
+        });
+        cerrarModalRecuperar.addEventListener('click', () => {
+            modalRecuperar.classList.add('hidden');
+            modalRecuperar.classList.remove('flex');
+        });
+        enviarRecuperacionBtn.addEventListener('click', () => {
+            modalRecuperar.classList.add('hidden');
+            modalRecuperar.classList.remove('flex');
+            mensaje.textContent = "Si el email está registrado, recibirás un correo para restablecer tu contraseña.";
+            mensaje.classList.remove('hidden');
+        });
+
+        // Inicializa en modo solo lectura
+        setEditable(false);
+    </script>
+</body>
+</html>
